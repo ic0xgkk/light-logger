@@ -71,12 +71,12 @@ source light-logger.sql;
 
 In this configuration:
 
-1. **listen_ip** : 
-2. **listen_port**
+1. **listen_ip** : Listen ip address
+2. **listen_port** : Listen tcp port
 3. **sessions** : Max allowed sessions of TCP
 4. **queue_depth** : Size of message queue, and it will used to be store the data which is received by TCP handle
-5. **db_ip**
-5. **db_port**
-5. **db_user**
-5. **db_password**
-5. **db_name**
+5. **db_ip** : MariaDB/MySQL server ip address
+5. **db_port** : Database tcp port
+5. **db_user** : Database username
+5. **db_password** : Database password
+5. **db_name** : Database name

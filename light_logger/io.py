@@ -76,8 +76,8 @@ class MQue(object):
         self.pid = pid
         logging.info("Succeed to create MsgQueue, depth " + str(conf['queue_depth']))
 
-    def enqueue(self, dict):
-        self.queue.put(dict)
+    def enqueue(self, data_list):
+        self.queue.put(data_list)
         os.kill(self.pid, signal.SIGUSR1)
 
     def status(self):

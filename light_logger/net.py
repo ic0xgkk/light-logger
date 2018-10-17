@@ -74,13 +74,20 @@ class TCPHandle(object):
             self.clean_dir(file_no)
 
 
-# def log_recv_handle():
+def log_recv_handle(conf, que: lio.MQue):
+    recv = TCPHandle(conf, que)
+    recv.start()
 
 def msg_to_database_handle(mq: lio.MQue, db: lio.DBOperating):
     while True:
         signal.sigwait(signal.SIGUSR1)
         while True:
             if mq.status() > 0:
-                pass
+                data_list = mq.deque()
+                timestamp = data_list[0]
+                project_name = data_list[1]
+                level = data_list[2]
+                msg = data_list[3]
+                db.db_insert(timestamp, project_name, level, msg)
             else:
                 break
