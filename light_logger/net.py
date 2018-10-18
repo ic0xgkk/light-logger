@@ -13,7 +13,7 @@ class TCPHandle(object):
     def __init__(self, conf, bq: lio.MQue):
         self.sk = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sk.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        self.sk.bind(conf['listen_ip'], conf['listen_port'])
+        self.sk.bind((conf['listen_ip'], conf['listen_port']))
         self.sk.listen(conf['sessions'])
         self.sk.setblocking(False)
 

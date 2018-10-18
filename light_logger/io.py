@@ -39,19 +39,10 @@ def load_config():
 
 class DBOperating(object):
     def __init__(self, conf):
-        self.db = pymysql.connect()
         try:
-            db = pymysql.connect(
-                host=conf['db_ip'],
-                port=conf['db_port'],
-                user=conf['db_user'],
-                passwd=conf['db_password'],
-                charset='utf8mb4',
-                db=conf['db_name']
-            )
+            self.db = pymysql.connect(host=conf['db_ip'], port=conf['db_port'], user=conf['db_user'], passwd=conf['db_password'], charset='utf8mb4', db=conf['db_name'])
         except pymysql.Error as e:
             logging.error("Failed to connect database : " + str(e))
-        self.db = db
 
     def db_insert(self, time, name, level, msg):
         try:
