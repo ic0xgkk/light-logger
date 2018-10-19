@@ -1,12 +1,12 @@
 {
     "listen_ip": "0.0.0.0",
     "listen_port": 5641,
-    "sessions": 5,
+    "sessions": 65,
     "queue_depth": 65535,
     "db_ip": "127.0.0.1",
     "db_port": 3306,
-    "db_user": "test",
-    "db_password": "",
+    "db_user": "root",
+    "db_password": "XueGao.hk@",
     "db_name": "light-logger",
-    "key": ""
+    "key": "asdasdasdasdas"
 }

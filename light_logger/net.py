@@ -11,18 +11,10 @@ import light_logger.security as lsec
 
 class TCPHandle(object):
     def __init__(self, conf, bq: lio.MQue):
-        self.sk = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.sk.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        self.sk.bind((conf['listen_ip'], conf['listen_port']))
-        self.sk.listen(conf['sessions'])
-        self.sk.setblocking(False)
 
-        self.epo = select.epoll()
-        # Register to epoll event
-        self.epo.register(self.sk.fileno(), select.EPOLLIN)
+        self.bind_parameter =(conf['listen_ip'], conf['listen_port'])
+        self.sessions = conf['sessions']
 
-        self.sk = socket.socket()
-        self.epo = select.epoll()
         self.connections = {}
         self.requests = {}
         self.responses = {}
@@ -31,6 +23,15 @@ class TCPHandle(object):
         self.bq = bq
 
     def start(self):
+        self.sk = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        self.sk.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+        self.sk.bind(self.bind_parameter)
+        self.sk.setblocking(False)
+        self.sk.listen(self.sessions)
+
+        self.epo = select.epoll()
+        # Register to epoll event
+        self.epo.register(self.sk.fileno(), select.EPOLLIN)
         try:
             while True:
                 events = self.epo.poll(0.1)
@@ -78,16 +79,10 @@ def log_recv_handle(conf, que: lio.MQue):
     recv = TCPHandle(conf, que)
     recv.start()
 
+
+'''
 def msg_to_database_handle(mq: lio.MQue, db: lio.DBOperating):
     while True:
         signal.sigwait(signal.SIGUSR1)
-        while True:
-            if mq.status() > 0:
-                data_list = mq.deque()
-                timestamp = data_list[0]
-                project_name = data_list[1]
-                level = data_list[2]
-                msg = data_list[3]
-                db.db_insert(timestamp, project_name, level, msg)
-            else:
-                break
+
+'''

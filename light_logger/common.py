@@ -18,8 +18,8 @@ def main():
 
     mque = lio.MQue(config, pid)
 
-    th_msg = threading.Thread(target=lnet.msg_to_database_handle, args=(mque, db,))
-    th_msg.start()
+    sigh = lio.SignalHandle(mque, db)
+    signal.signal(signal.SIGUSR1, sigh.signal_interrupt)
 
     th_recv = threading.Thread(target=lnet.log_recv_handle, args=(config, mque,))
     th_recv.start()

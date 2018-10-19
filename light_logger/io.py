@@ -83,3 +83,21 @@ class MQue(object):
             return self.queue.get()
         except:
             return -1
+
+
+class SignalHandle(object):
+    def __init__(self, mq: MQue, db: DBOperating):
+        self.mq = mq
+        self.db = db
+
+    def signal_interrupt(self):
+        while True:
+            if self.mq.status() > 0:
+                data_list = self.mq.deque()
+                timestamp = data_list[0]
+                project_name = data_list[1]
+                level = data_list[2]
+                msg = data_list[3]
+                self.db.db_insert(timestamp, project_name, level, msg)
+            else:
+                break

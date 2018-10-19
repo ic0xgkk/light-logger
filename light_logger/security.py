@@ -1,11 +1,6 @@
 from Crypto.Cipher import AES as aes
 import logging
 from binascii import crc32 as CRC32
-# import binascii
-import time
-import random
-import sys
-import operator
 
 
 class SecService(object):
